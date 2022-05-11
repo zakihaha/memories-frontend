@@ -1,6 +1,6 @@
 // reducer membutuhkan state dan action
 export default (posts = [], action) => {
-    switch (action.stype) {
+    switch (action.type) {
         case 'FETCH_ALL':
             return action.payload
         case 'CREATE':
