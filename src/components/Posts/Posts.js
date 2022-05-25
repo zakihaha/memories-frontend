@@ -6,6 +6,7 @@ import Post from './Post/Post';
 import useStyles from './styles'
 
 function Posts(props) {
+    // get from reducers
     const posts = useSelector((state) => state.posts)
     const classes = useStyles()
 

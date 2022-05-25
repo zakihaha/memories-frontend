@@ -13,6 +13,7 @@ function App(props) {
     const dispatch = useDispatch()
 
     useEffect(() => {
+        // run the action
         dispatch(getPosts())
     }, [dispatch])
 

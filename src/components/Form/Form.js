@@ -7,6 +7,7 @@ import { createPost } from '../../actions/posts';
 import useStyles from './styles'
 
 function Form(props) {
+    // use state gabungan satu form
     const [postData, setPostData] = useState({
         creator: '',
         title: '',
