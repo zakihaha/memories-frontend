@@ -1,33 +1,54 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { GoogleLogin } from 'react-google-login'
-
 import { Container, Avatar, Typography, Grid, Button, Paper } from '@material-ui/core'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
+
 import useStyles from './styles'
 import Icon from './Icon'
 import Input from './Input'
-import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { signin, signup } from '../../actions/auth'
+
+const initialState = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+}
 
 const Auth = () => {
     const classes = useStyles()
     const [showPassword, setShowPassword] = useState(false)
     const [isSignup, setIsSignup] = useState(false)
-    const dispatch = useDispatch()
+    const [formData, setFormData] = useState(initialState)
 
+    const dispatch = useDispatch()
     const navigate = useNavigate()
 
-    const submitHandler = () => {
+    const submitHandler = (e) => {
+        e.preventDefault()
+        console.log(formData);
 
+        if (isSignup) {
+            dispatch(signup(formData, navigate))
+        } else {
+            dispatch(signin(formData, navigate))
+
+        }
     }
 
-    const handleChange = () => {
-
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value })
     }
 
     const handleShowPassword = () => setShowPassword((prevShowPassword) => !prevShowPassword)
 
-    const switchMode = () => setIsSignup((prevIsSignUp) => !prevIsSignUp)
+    const switchMode = () => {
+        setIsSignup((prevIsSignUp) => !prevIsSignUp)
+        setShowPassword(false)
+    }
 
     const googleSuccess = async (res) => {
         // console.log(res)
@@ -35,7 +56,7 @@ const Auth = () => {
         const token = res?.tokenId
 
         try {
-            dispatch({type:'AUTH', data: {result, token}})
+            dispatch({ type: 'AUTH', data: { result, token } })
             navigate('/')
         } catch (error) {
             console.log(error);
@@ -73,7 +94,6 @@ const Auth = () => {
                     </Button>
                     <GoogleLogin
                         clientId='998173041129-9bslnpnqck2bhipjt182fn6eq4gutavh.apps.googleusercontent.com'
-                        // scope='https://www.googleapis.com/auth/user.birthday.read'
                         render={(renderProps) => (
                             <Button className={classes.googleButton}
                                 color='primary'
