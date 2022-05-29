@@ -9,7 +9,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { deletePost, likePost } from '../../../actions/posts';
 
-function Post({ post, setCurrentId }) {
+function Post({ post, setCurrentPostId }) {
     const classes = useStyles()
     const dispatch = useDispatch()
     const user = JSON.parse(localStorage.getItem('profile'))
@@ -37,7 +37,7 @@ function Post({ post, setCurrentId }) {
             {
                 (user?.result?.googleId === post.creator || user?.result?._id === post.creator) &&
                 <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size='small' onClick={() => setCurrentId(post._id)}>
+                    <Button style={{ color: 'white' }} size='small' onClick={() => setCurrentPostId(post._id)}>
                         <MoreHorizIcon fontSize='medium' />
                     </Button>
                 </div>
