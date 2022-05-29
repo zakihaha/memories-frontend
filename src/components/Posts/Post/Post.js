@@ -24,7 +24,7 @@ function Post({ post, setCurrentId }) {
                 )
         }
 
-        return <><ThumbUpAltOutlined fontSize='small'/>&nbsp;Like</>
+        return <><ThumbUpAltOutlined fontSize='small' />&nbsp;Like</>
     }
 
     return (
@@ -34,11 +34,14 @@ function Post({ post, setCurrentId }) {
                 <Typography variant='h6'>{post.name}</Typography>
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
-            <div className={classes.overlay2}>
-                <Button style={{ color: 'white' }} size='small' onClick={() => setCurrentId(post._id)}>
-                    <MoreHorizIcon fontSize='medium' />
-                </Button>
-            </div>
+            {
+                (user?.result?.googleId === post.creator || user?.result?._id === post.creator) &&
+                <div className={classes.overlay2}>
+                    <Button style={{ color: 'white' }} size='small' onClick={() => setCurrentId(post._id)}>
+                        <MoreHorizIcon fontSize='medium' />
+                    </Button>
+                </div>
+            }
             <div className={classes.details}>
                 <Typography variant='body2' color='textSecondary'> {post.tags.map((tag) => `#${tag} `)} </Typography>
             </div>
@@ -50,10 +53,13 @@ function Post({ post, setCurrentId }) {
                 <Button size='small' color='primary' disabled={!user?.result} onClick={() => dispatch(likePost(post._id))}>
                     <Likes />
                 </Button>
-                <Button size='small' color='primary' onClick={() => dispatch(deletePost(post._id))}>
-                    <DeleteIcon fontSize='small' />
-                    Delete
-                </Button>
+                {
+                    (user?.result?.googleId === post.creator || user?.result?._id === post.creator) &&
+                    <Button size='small' color='primary' onClick={() => dispatch(deletePost(post._id))}>
+                        <DeleteIcon fontSize='small' />
+                        Delete
+                    </Button>
+                }
             </CardActions>
         </Card>
     );
