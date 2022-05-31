@@ -16,16 +16,16 @@ function Post({ post, setCurrentPostId }) {
 
     const Likes = () => {
         if (post.likes.length > 0) {
-            return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id)) ?
-                (
-                    <> <ThumbUpAltIcon fontSize='small' />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}`} </>
+            return post.likes.find((like) => like === (user?.result?.googleId || user?.result?._id))
+                ? (
+                    <><ThumbUpAltIcon fontSize="small" />&nbsp;{post.likes.length > 2 ? `You and ${post.likes.length - 1} others` : `${post.likes.length} like${post.likes.length > 1 ? 's' : ''}`}</>
                 ) : (
-                    <> <ThumbUpAltOutlined fontSize='small' />&nbsp;{post.likes.length} {post.likes.length === 1 ? '' : ''} </>
-                )
+                    <><ThumbUpAltOutlined fontSize="small" />&nbsp;{post.likes.length} {post.likes.length === 1 ? 'Like' : 'Likes'}</>
+                );
         }
 
-        return <><ThumbUpAltOutlined fontSize='small' />&nbsp;Like</>
-    }
+        return <><ThumbUpAltOutlined fontSize="small" />&nbsp;Like</>;
+    };
 
     return (
         <Card className={classes.card}>
@@ -35,12 +35,13 @@ function Post({ post, setCurrentPostId }) {
                 <Typography variant='body2'>{moment(post.createdAt).fromNow()}</Typography>
             </div>
             {
-                (user?.result?.googleId === post.creator || user?.result?._id === post.creator) &&
-                <div className={classes.overlay2}>
-                    <Button style={{ color: 'white' }} size='small' onClick={() => setCurrentPostId(post._id)}>
-                        <MoreHorizIcon fontSize='medium' />
-                    </Button>
-                </div>
+                (user?.result?.googleId === post?.creator || user?.result?._id === post?.creator) && (
+                    <div className={classes.overlay2}>
+                        <Button onClick={() => setCurrentPostId(post._id)} style={{ color: 'white' }} size="small">
+                            <MoreHorizIcon fontSize="medium" />
+                        </Button>
+                    </div>
+                )
             }
             <div className={classes.details}>
                 <Typography variant='body2' color='textSecondary'> {post.tags.map((tag) => `#${tag} `)} </Typography>

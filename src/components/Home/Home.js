@@ -6,13 +6,13 @@ import Form from '../Form/Form';
 import Posts from '../Posts/Posts';
 
 const Home = () => {
-    const [currentPostId, setCurrentPostId] = useState(null)
+    const [currentPostId, setCurrentPostId] = useState(0)
     const dispatch = useDispatch()
 
     useEffect(() => {
         // run the action
         dispatch(getPosts())
-    }, [dispatch])
+    }, [currentPostId, dispatch])
 
     return (
         <Grow in>
