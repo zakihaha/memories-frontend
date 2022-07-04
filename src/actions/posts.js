@@ -4,11 +4,25 @@ import * as actionTypes from '../constants/actionTypes';
 // action creators
 export const getPosts = (page) => async (dispatch) => {
     try {
+        dispatch({ type: actionTypes.START_LOADING });
         const { data } = await api.fetchPosts(page)
         console.log(data);
 
         // ke reducers
         dispatch({ type: actionTypes.FETCH_ALL, payload: data })
+        dispatch({ type: actionTypes.END_LOADING });
+    } catch (error) {
+        console.log(error.message);
+    }
+}
+
+export const getPost = (id) => async (dispatch) => {
+    try {
+        dispatch({ type: actionTypes.START_LOADING });
+        const { data } = await api.fetchPost(id)
+
+        dispatch({ type: actionTypes.FETCH_POST, payload: data.data })
+        dispatch({ type: actionTypes.END_LOADING });
     } catch (error) {
         console.log(error.message);
     }
@@ -16,8 +30,11 @@ export const getPosts = (page) => async (dispatch) => {
 
 export const getPostsBySearch = (searchQuery) => async (dispatch) => {
     try {
+        dispatch({ type: actionTypes.START_LOADING });
+
         const { data: { data } } = await api.fetchPostsBySearch(searchQuery)
         dispatch({ type: actionTypes.FETCH_BY_SEARCH, payload: data })
+        dispatch({ type: actionTypes.END_LOADING });
     } catch (error) {
         console.log(error);
     }
@@ -25,8 +42,10 @@ export const getPostsBySearch = (searchQuery) => async (dispatch) => {
 
 export const createPost = (post) => async (dispatch) => {
     try {
+        dispatch({ type: actionTypes.START_LOADING });
         const { data } = await api.createPost(post)
         dispatch({ type: actionTypes.CREATE, payload: data })
+        dispatch({ type: actionTypes.END_LOADING });
     } catch (error) {
         console.log(error);
     }

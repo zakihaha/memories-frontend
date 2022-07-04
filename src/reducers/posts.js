@@ -1,9 +1,14 @@
 import * as actionTypes from '../constants/actionTypes';
 
 // reducer membutuhkan state dan action
-export default (state = [], action) => {
+export default (state = { isLoading: true, posts: [] }, action) => {
     switch (action.type) {
-        // membuat state baru
+        case actionTypes.START_LOADING:
+            return { ...state, isLoading: true };
+
+        case actionTypes.END_LOADING:
+            return { ...state, isLoading: false };
+
         case actionTypes.FETCH_ALL:
             return {
                 ...state,
@@ -13,20 +18,21 @@ export default (state = [], action) => {
             }
 
         case actionTypes.FETCH_BY_SEARCH:
-            return {
-                ...state, posts: action.payload
-            }
+            return { ...state, posts: action.payload }
+
+        case actionTypes.FETCH_POST:
+            return { ...state, post: action.payload }
 
         case actionTypes.CREATE:
-            return [...state, action.payload]
+            return { ...state, posts: [...state.posts, action.payload] }
 
         case actionTypes.UPDATE:
         case actionTypes.LIKE:
             // id updated post
-            return state.map((post) => post._id === action.payload._id ? action.payload : post)
+            return { ...state, posts: state.posts.map((post) => post._id === action.payload._id ? action.payload : post) }
 
         case actionTypes.DELETE:
-            return state.filter((post) => post._id !== action.payload)
+            return { ...state, posts: state.posts.filter((post) => post._id !== action.payload) }
 
         default:
             return state
