@@ -18,8 +18,7 @@ function Form({ currentPostId, setCurrentPostId }) {
         selectedFile: '',
     })
 
-    const post = useSelector((state) => currentPostId ? state.posts.find((p) => p._id === currentPostId) : null)
-
+    const post = useSelector((state) => currentPostId ? state.posts.posts.find((p) => p._id === currentPostId) : null)
     const user = JSON.parse(localStorage.getItem('profile'))
 
     const handleSubmit = async (e) => {
@@ -46,15 +45,15 @@ function Form({ currentPostId, setCurrentPostId }) {
     if (!user?.result?.name) {
         return (
             <Paper className={classes.paper}>
-                <Typography variant='h6' align='center'>
-                    Please Sign In to create your own memories and like other's memories
+                <Typography variant="h6" align="center">
+                    Please Sign In to create your own memories and like other's memories.
                 </Typography>
             </Paper>
-        )
+        );
     }
 
     return (
-        <Paper className={classes.paper}>
+        <Paper className={classes.paper} elevation={6}>
             <form autoComplete='off' noValidate className={`${classes.root} ${classes.form}`} onSubmit={handleSubmit}>
                 <Typography variant='h6'>{currentPostId ? "Editing" : "Creating"} a memory</Typography>
                 {/* agar tidak hilang */}
